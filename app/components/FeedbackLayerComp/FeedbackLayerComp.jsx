@@ -1,21 +1,34 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
 import Graphic from "@arcgis/core/Graphic.js";
 import { EssentialsContext } from "../../EssentialsProvider";
 const FeedbackLayerComp = () => {
-  const { mapView } = useContext(EssentialsContext);
-  useEffect(() => {
-    let graphicB = new Graphic({
-      // graphic with point geometry
-      geometry: { type: "point", x: 30, y: 30 },
-      symbol: { type: "simple-marker", color: "red", size: 16 },
-    });
-    let layer = new GraphicsLayer({
-      graphics: [graphicB],
-    });
+  const { mapView, feedbacks } = useContext(EssentialsContext);
+  const layer = useRef();
 
-    mapView.map.add(layer);
+  useEffect(() => {
+    layer.current = new GraphicsLayer({});
+
+    mapView.map.add(layer.current);
   }, []);
+  useEffect(() => {
+    feedbacks.map((el) => {
+      console.log(el.coordinates);
+      layer.current.add(
+        new Graphic({
+          geometry: {
+            type: "point",
+            spatialReference: {
+              wkid: 3857,
+            },
+            x: el.coordinates[0],
+            y: el.coordinates[1],
+          },
+          symbol: { type: "simple-marker", color: "red", size: 16 },
+        })
+      );
+    });
+  }, [feedbacks]);
   return null;
 };
 

@@ -7,7 +7,7 @@ import Map from "@arcgis/core/Map.js";
 import "./MapViewComp.styles.css";
 
 import WidgetsComp from "../widgetsComp/widgetsComp";
- import FeedbackLayerComp from "../FeedbackLayerComp/FeedbackLayerComp";
+import FeedbackLayerComp from "../FeedbackLayerComp/FeedbackLayerComp";
 import { EssentialsContext } from "../../EssentialsProvider";
 const MapViewComp = () => {
   const mapRef = useRef(null);
@@ -22,9 +22,10 @@ const MapViewComp = () => {
       container: mapRef.current,
       center: [30, 30],
       zoom: 6,
+ 
     }).when((view) => {
+      console.log(view.spatialReference);
       setMapView(view);
-  
     });
 
     //   return () => mapView && mapView.destroy();
