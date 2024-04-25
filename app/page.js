@@ -3,6 +3,9 @@ const MapViewComp = dynamic(
   () => import("./components/MapViewComp/MapViewComp"),
   { ssr: false }
 );
+import EssentialsProvider from "./EssentialsProvider.jsx";
 export default function Home() {
-  return <MapViewComp></MapViewComp>;
+  return ( <EssentialsProvider>
+  <MapViewComp></MapViewComp>
+    </EssentialsProvider>)
 }

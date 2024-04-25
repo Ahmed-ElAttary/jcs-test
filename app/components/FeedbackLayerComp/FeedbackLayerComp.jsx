@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
 import Graphic from "@arcgis/core/Graphic.js";
-
-const FeedbackLayerComp = ({ mapView }) => {
+import { EssentialsContext } from "../../EssentialsProvider";
+const FeedbackLayerComp = () => {
+  const { mapView } = useContext(EssentialsContext);
   useEffect(() => {
     let graphicB = new Graphic({
       // graphic with point geometry

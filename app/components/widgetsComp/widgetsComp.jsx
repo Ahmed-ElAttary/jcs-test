@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 
 import { CalciteButton } from "@esri/calcite-components-react";
 import { createRoot } from "react-dom/client";
@@ -7,7 +7,9 @@ import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
 import BasemapToggle from "@arcgis/core/widgets/BasemapToggle.js";
 import Draw from "@arcgis/core/views/draw/Draw.js";
 import Form from "./Form";
-const WidgetsComp = ({ mapView }) => {
+import { EssentialsContext } from "../../EssentialsProvider";
+const WidgetsComp = () => {
+  const { mapView } = useContext(EssentialsContext);
   const root = useRef();
   const draw = useRef(new Draw({ view: mapView }));
   const handleDraw = (e) => {

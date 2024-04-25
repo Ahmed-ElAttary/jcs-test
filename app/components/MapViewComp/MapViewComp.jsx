@@ -1,37 +1,41 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import MapView from "@arcgis/core/views/MapView.js";
 import Map from "@arcgis/core/Map.js";
 import "./MapViewComp.styles.css";
 
 import WidgetsComp from "../widgetsComp/widgetsComp";
-import FeedbackLayerComp from "../FeedbackLayerComp/FeedbackLayerComp";
+ import FeedbackLayerComp from "../FeedbackLayerComp/FeedbackLayerComp";
+import { EssentialsContext } from "../../EssentialsProvider";
 const MapViewComp = () => {
   const mapRef = useRef(null);
-  const [mapView, setMapView] = useState(null);
+  const { mapView, setMapView } = useContext(EssentialsContext);
+
   useEffect(() => {
     if (!mapRef?.current) return;
     const map = new Map({ basemap: "satellite" });
 
     new MapView({
       map,
-
       container: mapRef.current,
       center: [30, 30],
       zoom: 6,
-    }).when((view) => setMapView(view));
+    }).when((view) => {
+      setMapView(view);
+  
+    });
 
-    return () => mapView && mapView.destroy();
+    //   return () => mapView && mapView.destroy();
   }, []);
   return (
     <>
       <div className="map-view" ref={mapRef}>
         {mapView && (
           <>
-            <WidgetsComp mapView={mapView} />
-            <FeedbackLayerComp mapView={mapView} />
+            <WidgetsComp />
+            <FeedbackLayerComp />
           </>
         )}
       </div>
