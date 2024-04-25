@@ -1,6 +1,5 @@
 "use client";
-// import esriConfig from "@arcgis/core/config.js";
-// esriConfig.assetsPath = "./assets";
+
 import { useEffect, useRef, useState } from "react";
 
 import MapView from "@arcgis/core/views/MapView.js";
@@ -8,7 +7,7 @@ import Map from "@arcgis/core/Map.js";
 import "./MapViewComp.styles.css";
 
 import WidgetsComp from "../widgetsComp/widgetsComp";
-
+import FeedbackLayerComp from "../FeedbackLayerComp/FeedbackLayerComp";
 const MapViewComp = () => {
   const mapRef = useRef(null);
   const [mapView, setMapView] = useState(null);
@@ -29,7 +28,12 @@ const MapViewComp = () => {
   return (
     <>
       <div className="map-view" ref={mapRef}>
-        {mapView && <WidgetsComp mapView={mapView} />}
+        {mapView && (
+          <>
+            <WidgetsComp mapView={mapView} />
+            <FeedbackLayerComp mapView={mapView} />
+          </>
+        )}
       </div>
     </>
   );

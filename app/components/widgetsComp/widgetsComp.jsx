@@ -1,16 +1,23 @@
-import { setAssetPath } from "@esri/calcite-components/dist/components";
-setAssetPath("https://js.arcgis.com/calcite-components/2.7.1/assets");
-import "@esri/calcite-components/dist/components/calcite-button.js";
-import "@esri/calcite-components/dist/calcite/calcite.css";
+import React, { useEffect, useRef } from "react";
 
-import React, { useEffect } from "react";
 import { CalciteButton } from "@esri/calcite-components-react";
-
 import { createRoot } from "react-dom/client";
 import Home from "@arcgis/core/widgets/Home.js";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
 import BasemapToggle from "@arcgis/core/widgets/BasemapToggle.js";
+import Draw from "@arcgis/core/views/draw/Draw.js";
+import Form from "./Form";
 const WidgetsComp = ({ mapView }) => {
+  const root = useRef();
+  const draw = useRef(new Draw({ view: mapView }));
+  const handleDraw = (e) => {
+    mapView.surface.style.cursor = "crosshair";
+    let pointAction = draw.current.create("point");
+    pointAction.on("draw-complete", (evt) => {
+      console.log(evt.vertices);
+      root.current.render(<Form />);
+    });
+  };
   useEffect(() => {
     let scaleBar = new ScaleBar({
       view: mapView,
@@ -19,20 +26,28 @@ const WidgetsComp = ({ mapView }) => {
       view: mapView,
     });
 
-    mapView.ui.move("zoom", "bottom-right");
-    mapView.ui.add(scaleBar, { position: "bottom-right" });
-    mapView.ui.add([homeWidget], { position: "top-left" });
-    var node = document.createElement("div");
-    const root = createRoot(node);
-    mapView.ui.add(node, { position: "top-right" });
-    root.render(
-      <CalciteButton onClick={(e) => alert("fdfd")}>Reset</CalciteButton>
-    );
-
     let basemapToggle = new BasemapToggle({
       view: mapView,
       nextBasemap: "dark-gray",
     });
+
+    // DRAW WIDGET
+
+    var node = document.createElement("div");
+    root.current = createRoot(node);
+    mapView.ui.add(node, { position: "top-right" });
+    root.current.render(
+      // <CalciteButton onClick={handleDraw}>Feedback</CalciteButton>
+      <Form></Form>
+    );
+
+    //////////////////// form /////////////////////
+
+    //////////////////////
+
+    mapView.ui.move("zoom", "bottom-right");
+    mapView.ui.add(scaleBar, { position: "bottom-right" });
+    mapView.ui.add([homeWidget], { position: "top-left" });
     mapView.ui.add(basemapToggle, { position: "bottom-left" });
   }, []);
   return null;
