@@ -19,9 +19,9 @@ function ValidateEmail(mail) {
   }
   return false;
 }
-const Form = ({ mapView, feedbacks, setFeedbacks }) => {
+const Form = ({ mapView, setFeedbacks }) => {
   const draw = useRef(new Draw({ view: mapView }));
-
+  const [id, setId] = useState(0);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [type, setType] = useState("");
@@ -41,7 +41,12 @@ const Form = ({ mapView, feedbacks, setFeedbacks }) => {
   const handleSave = () => {
     if (name && email && type && message) {
       // if (ValidateEmail(email)) {
-      setFeedbacks([...feedbacks, { name, email, type, message, coordinates }]);
+      setId(id + 1);
+      setFeedbacks((oldArray) => [
+        ...oldArray,
+        { id: id + 1, name, email, type, message, coordinates },
+      ]);
+
       handleReset();
       // } else {
       //   setError("You have entered an invalid email address!");
@@ -54,7 +59,6 @@ const Form = ({ mapView, feedbacks, setFeedbacks }) => {
     mapView.surface.style.cursor = "crosshair";
     let pointAction = draw.current.create("point");
     pointAction.on("draw-complete", (e) => {
-      console.log(e);
       setCoordinates(e.coordinates);
       setOpenForm(true);
     });
@@ -73,6 +77,15 @@ const Form = ({ mapView, feedbacks, setFeedbacks }) => {
               <div slot="title">{error}</div>
             </CalciteAlert>
           )}
+          <CalciteButton
+            onClick={() => {
+              handleReset();
+              setOpenForm(false);
+            }}
+          >
+            X
+          </CalciteButton>
+          <br />
           <CalciteLabel>
             Name
             <CalciteInput

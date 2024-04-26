@@ -10,11 +10,13 @@ import TableList from "@arcgis/core/widgets/TableList.js";
 import FeatureTable from "@arcgis/core/widgets/FeatureTable.js";
 import Form from "./Form";
 import { EssentialsContext } from "../../EssentialsProvider";
+import List from "./List";
 
 const WidgetsComp = () => {
   const { mapView, feedbacks, setFeedbacks, layer } =
     useContext(EssentialsContext);
-  const root = useRef();
+  const formRoot = useRef();
+  const listRoot = useRef();
 
   useEffect(() => {
     let scaleBar = new ScaleBar({
@@ -32,49 +34,27 @@ const WidgetsComp = () => {
     // DRAW WIDGET
     //////////////////////////////////////////////
     var form = document.createElement("div");
-    root.current = createRoot(form);
+    formRoot.current = createRoot(form);
 
-    root.current.render(
-      <Form
-        mapView={mapView}
-        feedbacks={feedbacks}
-        setFeedbacks={setFeedbacks}
-      ></Form>
+    formRoot.current.render(
+      <Form mapView={mapView} setFeedbacks={setFeedbacks}></Form>
     );
     ////////////////////////////////////////////////////////
-    const tableList = new TableList({
-      map: mapView, // takes any tables associated with the map and displays in widget
+    var list = document.createElement("div");
+    listRoot.current = createRoot(list);
 
-      listItemCreatedFunction: function (event) {
-        let item = event.item;
-        item.actionsSections = [
-          {
-            title: "Show table",
-            className: "esri-icon-table",
-            id: "table",
-            type: "toggle",
-          },
-          {
-            title: "Layer information",
-            className: "esri-icon-description",
-            id: "information",
-          },
-        ];
-      },
-    });
-
-    // const featureTable = new FeatureTable({
-    //   view: mapView, // The view property must be set for the select/highlight to work
-    //   layer: layer.current,
-    //   container: tableList, // the table must be assigned to the container via the constructor
-    // });
     ////////////////////////////////////////////////////////
-    mapView.ui.add([form, tableList], { position: "top-right" });
+    mapView.ui.add([form, list], { position: "top-right" });
     mapView.ui.move("zoom", "bottom-right");
     mapView.ui.add(scaleBar, { position: "bottom-right" });
     mapView.ui.add([homeWidget], { position: "top-left" });
     mapView.ui.add(basemapToggle, { position: "bottom-left" });
   }, []);
+  useEffect(() => {
+    listRoot.current.render(
+      <List mapView={mapView} feedbacks={feedbacks} layer={layer}></List>
+    );
+  }, [feedbacks]);
   return null;
 };
 

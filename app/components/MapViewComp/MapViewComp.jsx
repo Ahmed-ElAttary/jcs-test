@@ -22,13 +22,11 @@ const MapViewComp = () => {
       container: mapRef.current,
       center: [31.2, 30.05],
       zoom: 12,
- 
     }).when((view) => {
-    
       setMapView(view);
     });
 
-    //   return () => mapView && mapView.destroy();
+    return () => mapView && mapView.destroy();
   }, []);
   return (
     <>
