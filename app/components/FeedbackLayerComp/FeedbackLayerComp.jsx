@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect } from "react";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
 import Graphic from "@arcgis/core/Graphic.js";
 import { EssentialsContext } from "../../EssentialsProvider";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
+
+// Feedback Types Icons
 const icon = {
   Complain: "/complain.png",
   "Request Information": "/request_information.png",
@@ -15,10 +16,12 @@ const FeedbackLayerComp = () => {
   const { mapView, feedbacks, layer } = useContext(EssentialsContext);
 
   useEffect(() => {
+    // intializing the layer
     layer.current = new GraphicsLayer({});
     mapView.map.add(layer.current);
   }, []);
   useEffect(() => {
+    // Feeding the layer with features
     layer.current.removeAll();
     feedbacks.map(({ id, name, email, type, message, coordinates }) => {
       layer.current.add(

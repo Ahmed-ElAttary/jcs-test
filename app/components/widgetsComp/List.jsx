@@ -14,14 +14,14 @@ import "@esri/calcite-components/dist/components/calcite-table-cell";
 const List = ({ mapView, feedbacks, layer }) => {
   const highlightRef = useRef();
   const [openList, setOpenList] = useState(false);
-
+  // Zoom To Feature Functionality
   const zoomTo = (id) => {
     mapView.goTo({
       target: layer.current.graphics.find((el) => el.attributes.id == id),
       zoom: 18,
     });
   };
-
+  // Highlighting Feature Functionality
   const highlight = (id) => {
     const graphic = layer.current.graphics.find((el) => el.attributes.id == id);
     mapView.whenLayerView(graphic.layer).then(function (layerView) {

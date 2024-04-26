@@ -1,11 +1,8 @@
 "use client";
-
-import { useContext, useEffect, useRef, useState } from "react";
-
+import { useContext, useEffect, useRef } from "react";
 import MapView from "@arcgis/core/views/MapView.js";
 import Map from "@arcgis/core/Map.js";
 import "./MapViewComp.styles.css";
-
 import WidgetsComp from "../widgetsComp/widgetsComp";
 import FeedbackLayerComp from "../FeedbackLayerComp/FeedbackLayerComp";
 import { EssentialsContext } from "../../EssentialsProvider";
@@ -14,6 +11,7 @@ const MapViewComp = () => {
   const { mapView, setMapView } = useContext(EssentialsContext);
 
   useEffect(() => {
+    // inializing the map
     if (!mapRef?.current) return;
     const map = new Map({ basemap: "satellite" });
 

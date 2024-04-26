@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useEffect, useRef, useState } from "react";
+import { createContext, useRef, useState } from "react";
 
 export const EssentialsContext = createContext();
 

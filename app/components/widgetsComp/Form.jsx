@@ -13,6 +13,7 @@ import "@esri/calcite-components/dist/components/calcite-input";
 import "@esri/calcite-components/dist/components/calcite-select";
 import "@esri/calcite-components/dist/components/calcite-alert";
 
+// Email Validator
 function ValidateEmail(mail) {
   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
     return true;
@@ -29,6 +30,8 @@ const Form = ({ mapView, setFeedbacks }) => {
   const [coordinates, setCoordinates] = useState([]);
   const [error, setError] = useState("");
   const [openForm, setOpenForm] = useState(false);
+
+  // Reseting the Form
   const handleReset = () => {
     setName("");
     setEmail("");
@@ -38,7 +41,10 @@ const Form = ({ mapView, setFeedbacks }) => {
     setOpenForm(false);
     mapView.surface.style.cursor = "default";
   };
+
+  // Saving The Form
   const handleSave = () => {
+    // Applig Validation
     if (name && email && type && message) {
       if (ValidateEmail(email)) {
         setId(id + 1);
@@ -55,6 +61,8 @@ const Form = ({ mapView, setFeedbacks }) => {
       setError("Please fill all form fields!");
     }
   };
+
+  // Placing Markers
   const handleDraw = () => {
     mapView.surface.style.cursor = "crosshair";
     let pointAction = draw.current.create("point");
