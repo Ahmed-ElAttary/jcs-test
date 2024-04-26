@@ -7,9 +7,6 @@ const EssentialsProvider = ({ children }) => {
   const [mapView, setMapView] = useState(null);
   const [feedbacks, setFeedbacks] = useState([]);
   const layer = useRef();
-  useEffect(() => {
-    console.log("from context", feedbacks);
-  }, [feedbacks]);
   return (
     <EssentialsContext.Provider
       value={{ mapView, setMapView, feedbacks, setFeedbacks, layer }}

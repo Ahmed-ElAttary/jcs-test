@@ -40,17 +40,17 @@ const Form = ({ mapView, setFeedbacks }) => {
   };
   const handleSave = () => {
     if (name && email && type && message) {
-      // if (ValidateEmail(email)) {
-      setId(id + 1);
-      setFeedbacks((oldArray) => [
-        ...oldArray,
-        { id: id + 1, name, email, type, message, coordinates },
-      ]);
+      if (ValidateEmail(email)) {
+        setId(id + 1);
+        setFeedbacks((oldArray) => [
+          ...oldArray,
+          { id: id + 1, name, email, type, message, coordinates },
+        ]);
 
-      handleReset();
-      // } else {
-      //   setError("You have entered an invalid email address!");
-      // }
+        handleReset();
+      } else {
+        setError("You have entered an invalid email address!");
+      }
     } else {
       setError("Please fill all form fields!");
     }
@@ -89,13 +89,13 @@ const Form = ({ mapView, setFeedbacks }) => {
           <CalciteLabel>
             Name
             <CalciteInput
-              onCalciteInputChange={(e) => setName(e.target.value)}
+              onInput={(e) => setName(e.target.value)}
             ></CalciteInput>
           </CalciteLabel>
           <CalciteLabel>
             Email
             <CalciteInput
-              onCalciteInputChange={(e) => setEmail(e.target.value)}
+              onInput={(e) => setEmail(e.target.value)}
             ></CalciteInput>
           </CalciteLabel>
 
@@ -125,7 +125,7 @@ const Form = ({ mapView, setFeedbacks }) => {
           <CalciteLabel>
             Message
             <CalciteInput
-              onCalciteInputChange={(e) => setMessage(e.target.value)}
+              onInput={(e) => setMessage(e.target.value)}
             ></CalciteInput>
           </CalciteLabel>
           <CalciteButton onClick={handleSave}>Save</CalciteButton>
