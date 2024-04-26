@@ -6,9 +6,11 @@ export const EssentialsContext = createContext();
 const EssentialsProvider = ({ children }) => {
   const [mapView, setMapView] = useState(null);
   const [feedbacks, setFeedbacks] = useState([]);
+  const layer = useRef();
+
   return (
     <EssentialsContext.Provider
-      value={{ mapView, setMapView, feedbacks, setFeedbacks }}
+      value={{ mapView, setMapView, feedbacks, setFeedbacks, layer }}
     >
       {children}
     </EssentialsContext.Provider>

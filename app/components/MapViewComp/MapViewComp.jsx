@@ -20,11 +20,11 @@ const MapViewComp = () => {
     new MapView({
       map,
       container: mapRef.current,
-      center: [30, 30],
-      zoom: 6,
+      center: [31.2, 30.05],
+      zoom: 12,
  
     }).when((view) => {
-      console.log(view.spatialReference);
+    
       setMapView(view);
     });
 
